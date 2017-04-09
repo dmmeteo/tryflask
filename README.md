@@ -1,4 +1,4 @@
-# Try flask 0.12 & python 3.5
+# Try flask 0.9 & python 2.7
 
 ## options
 * to runserver "python run.py"
