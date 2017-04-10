@@ -4,16 +4,16 @@ from blog.forms import LoginForm
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 def index():
-    user = {'nickname': 'Miguel'}
+    user = {'name': 'Miguel'}
     posts = [
         {
-            'author': {'nickname': 'John'},
+            'author': {'name': 'John'},
             'body': 'Beautiful day in Portland!'
         },
         {
-            'author': {'nickname': 'Susan'},
+            'author': {'name': 'Susan'},
             'body': 'The Avengers movie was so cool!'
         }
     ]
@@ -23,7 +23,7 @@ def index():
                            posts=posts)
 
 
-@app.route('/login/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
