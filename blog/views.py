@@ -14,7 +14,7 @@ def load_user(id):
 @app.before_request
 def before_request():
     g.user = current_user
-    if g.user.is_authenticated():
+    if g.user.is_authenticated:
         g.user.last_seen = datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
@@ -66,6 +66,7 @@ def after_login(response):
         nickname = response.nickname
         if nickname is None or nickname == "":
             nickname = response.email.split('@')[0]
+        nickname = User.make_unique_nickname(nickname)
         user = User(nickname=nickname, email=response.email, role=ROLE_USER)
         db.session.add(user)
         db.session.commit()
@@ -102,7 +103,7 @@ def user(nickname):
 @app.route('/edit_user', methods=['GET', 'POST'])
 @login_required
 def edit_user():
-    form = EditUserForm()
+    form = EditUserForm(g.user.nickname)
     if form.validate_on_submit():
         g.user.nickname = form.nickname.data
         g.user.about_me = form.about_me.data
@@ -115,3 +116,14 @@ def edit_user():
         form.about_me.data = g.user.about_me
     return render_template('edit_user.html',
                            form=form)
+
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('errors/404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return render_template('errors/500.html'), 500
