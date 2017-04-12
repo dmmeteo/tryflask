@@ -1,4 +1,4 @@
-from models import User
+from blog.models import User
 from flask.ext.wtf import Form
 from wtforms import TextField, BooleanField, TextAreaField
 from wtforms.validators import Required, Length
