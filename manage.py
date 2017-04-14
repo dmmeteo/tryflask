@@ -10,7 +10,7 @@ from config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, DEBUG
 if __name__ == "__main__":
     for arg in sys.argv:
         if arg == 'runserver':
-            app.run(debug=DEBUG, port=9090)
+            app.run(debug=DEBUG)
         elif arg == 'migrate':
             migration = SQLALCHEMY_MIGRATE_REPO + '/versions/%03d_migration.py' % (api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO) + 1)
             tmp_module = imp.new_module('old_model')
