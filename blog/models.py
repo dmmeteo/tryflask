@@ -4,6 +4,10 @@ from hashlib import md5
 ROLE_USER = 0
 ROLE_ADMIN = 1
 
+followers = db.Table('followers',
+                     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+                     db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+                     )
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -72,9 +76,3 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % self.body
-
-
-followers = db.Table('followers',
-                     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-                     db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
-                     )
